@@ -248,7 +248,7 @@ var qCanver = (function (undefined) {
             }
             return this;
         },
-        move: function (x, u) {
+        move: function (x, y) {
             this.context.moveTo(x, y);
             return this;
         },
