@@ -1,4 +1,4 @@
-(function (window) {
+(function (global) {
 var qCanver = (function (undefined) {
     var slice = Array.prototype.slice,
         toString = Object.prototype.toString,
@@ -39,7 +39,7 @@ var qCanver = (function (undefined) {
         qCanver = (function (_QCanver) {
             var cache = {},
                 qCanver = function(id, noCache) {
-                   var canvas = document.getElementById(id);
+                   var canvas = Object.prototype.toString.call(id) === '[object String]' ? document.getElementById(id) : id;
                     if (canvas && canvas.getContext) {
                         if (!noCache) {
                             if (cache[id]) {
@@ -54,15 +54,20 @@ var qCanver = (function (undefined) {
 
             qCanver.Version = "0.0.1";
             qCanver.create = function (id, width, height) {
-                var canvas = document.createElement("canvas");
-                canvas.setAttribute("id", id);
-                if (qCanver.type(width) === "number") {
-                    canvas.setAttribute("width", width);
+                var canvas;
+                if (qCanver.isWindow(global)) {
+                    canvas = document.createElement("canvas");
+                    canvas.setAttribute("id", id);
+                    if (qCanver.type(width) === "number") {
+                        canvas.setAttribute("width", width);
+                    }
+                    if (qCanver.type(height) === "number") {
+                        canvas.setAttribute("height", height);
+                    }
+                } else {
+                    var Canvas = require('canvas');
+                    canvas = new Canvas(width, height);
                 }
-                if (qCanver.type(height) === "number") {
-                    canvas.setAttribute("height", height);
-                }
-                
                 return new _QCanver(id, canvas);
             };
             qCanver.extend = function (/*(name, f) | obj*/) {
@@ -602,10 +607,20 @@ var qCanver = (function (undefined) {
             }
 
             return this;
+        },
+        isWindow: function(obj) {
+            return obj != null && obj == obj.window;
         }
     });
 })(qCanver);
 
+if (typeof exports !== 'undefined') {
+    if (typeof module !== 'undefined' && module.exports) {
+        exports = module.exports = qCanver;
+    }
+    exports.qCanver = qCanver;
+} else {
+    global['qCanver'] = qCanver;
+}
 
-    window.qCanver = qCanver;
-})(window);
+})(this);

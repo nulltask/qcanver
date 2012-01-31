@@ -1,0 +1,24 @@
+{
+    "name": "qcanver",
+    "description": "Canvas API wrapper and some useful functions.",
+    "version": "0.0.1",
+    "author": "daisun",
+    "maintainers": [{
+        "name": "Seiya Konno",
+        "email": "nulltask@gmail.com"
+    }],
+    "keywords": ["isomorphic", "canvas", "wrapper"],
+    "dependencies": {
+        "canvas": "0.x"
+    },
+    "repository": "git@github.com:nulltask/qcanver.git",
+    "devDependencies": {
+        "mocha": "*",
+        "express": "2.x",
+        "jade": "0.x"
+    },
+    "engines": {
+        "node": ">= 0.6.0 && < 0.7.0"
+    },
+    "main": "./qcanver.js"
+}
